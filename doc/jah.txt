@@ -1,0 +1,198 @@
+*jah.txt*        Jason Heddings' customizations, tips, and tricks
+
+Author: Jason Heddings (jason@heddings.com)
+For Vim version 6.0 and above
+
+1. Custom Mappings                              |custom-mappings|
+2. Command Line Editing                         |command-line-editing|
+3. Configuration                                |jah-configure|
+4. Handy Vim Mappings                           |handy-vim-mappings|
+5. Helpful Vim Resources                        |vim-help-files|
+6. My Vim Contributions                         |jah-contrib|
+
+==============================================================================
+                                                *custom-mappings*
+1. Custom Mappings~
+
+Wherever it makes sense, I try to stick to the original Vim commands.  These
+are the cases where I have found it easier to create my own mapping.
+
+    * Buffer navigation & management:
+      <C-Tab>   -- next buffer |:bnext|
+      <C-S-Tab> -- previous buffer |:bprev|
+
+    * Navigating & using tag files:
+      <M-]>     -- go to tag definition for word under cursor |CTRL-]|
+      <M-[>     -- return to previous tag location |CTRL-T|
+      <M-\>     -- split window on tag definition |:ptag|
+      <M-}>     -- next tag match |:tnext|
+      <M-{>     -- previous tag match |:tprev|
+
+    * Editing shortcuts:
+      <Tab>     -- indent 1 level (visual mode) |>|
+      <S-Tab>   -- outdent 1 level (visual mode) |<|
+      <S-Enter> -- enter new line above cursor (normal mode)
+      <C-Enter> -- enter new line below cursor (normal mode)
+
+    * For using plugins:
+      \\        -- toggle buffer list (requires bufferlist plugin)
+      \`        -- toggle quickfix window (requires |qfixtoggle| plugin)
+      \a        -- alternate header/source file (requires 'a.vim' plugin)
+      \s        -- display current syntax links |syntax|
+
+    * Using the |quickfix| window:
+      <M-.>     -- jump to next item in quickfix |:cnext|
+      <M-,>     -- jump to previous item in quickfix |:cprev|
+
+    * Getting help
+      \<F1>     -- load this help file
+      <M-F1>    -- rebuild user help files |:helptags|
+      <C-F1>    -- show help topic for word under cursor |{subject}|
+
+    * Miscellaneous
+      \n        -- toggle search highlighting |hlsearch|
+      <C-A>     -- select all text in current buffer
+
+==============================================================================
+                                                *command-line-editing*
+2. Command-Line Editing~
+
+These commands have been remapped from the original Vim |cmdline-history|
+commands to something that makes a little more sense.
+
+      <C-K>     -- scroll up through command history
+      <C-O>     -- move to beginning of command line
+      <C-B>     -- move one word left
+      <C-J>     -- scroll down through command history
+      <C-G>     -- move to end of command line
+      <C-W>     -- move one word right
+      <C-BS>    -- delete word before cursor
+      <C-H>     -- move cursor left
+      <C-D>     -- delete after before cursor
+      <C-J>     -- move cursor right
+      <C-C>     -- copy to command line from the history window
+
+==============================================================================
+                                                *jah-configure*
+3. Configuration~
+
+There are a few options that can be set for the plugin.  These are defined in
+the .vimrc file using |let|, before the plugins are loaded.  The default
+values for the options are shown in square brackets.
+
+|'jah_SmartTabCompletion'|      Enable keyword completion with <Tab> key [1]
+|'jah_CwdFollowsBuffer'|        Working directory follows active buffer [1]
+|'jah_WhiteSpaceEOL'|           Highlight trailing whitespace on a line [1]
+|'jah_LocalVimSearch'|          Search for a local command file to source [1]
+
+                                                *'jah_SmartTabCompletion'*
+jah_SmartTabCompletion~
+    This feature allows keyword completion using the <Tab> key.  If the word
+    at the cursor is not recognized as a possible keyword, a <Tab> is
+    inserted.
+
+                                                *'jah_CwdFollowsBuffer'*
+jah_CwdFollowsBuffer~
+    This feature automatically sets the working directory to that of the
+    buffer being edited.
+
+                                                *'jah_WhiteSpaceEOL'*
+jah_WhiteSpaceEOL~
+    This feature makes trailing whitespace at the end of a line visible.
+
+                                                *'jah_LocalVimSearch'*
+jah_LocalVimSearch~
+    This enables the plugin to search for a file named 'local.vim' upward in
+    the directory tree.  If this file is found in any ancestor of the working 
+    directory, it will be automatically sourced.  Only the first occurence of 
+    this file will be used.  The search is run only once when Vim is launched.
+
+==============================================================================
+                                                *handy-vim-commands*
+4. Handy Vim Commands (Built In)~
+
+    * Navigation and searching
+     |gf|       -- open file under cursor
+     |gg|       -- jump to first line in buffer
+     |G|        -- jump to last line in buffer
+      m{name}   -- set mark using a single character name |mark|
+      '{name}   -- jump to mark with given character name |'|
+      * or #    -- find next occurrence of word in file |star|
+
+    * Programming stuff:
+     |[[|       -- jump to top of current function
+     |]]|       -- jump to top of next function
+     |%|        -- find matching brace or paren
+     |=|        -- smart indent visual block (|==| indent line)
+     |gq|       -- format motion or visual block
+
+    * Cursor history
+      <C-O>     -- jump to previous location in history |CTRL-O|
+      <C-I>     -- jump to next location in history |CTRL-I|
+
+    * Auto completion (in insert mode)
+      <C-N>     -- auto-complete next |i_CTRL-X_CTRL-N|
+      <C-P>     -- auto-complete previous |i_CTRL-X_CTRL-P|
+
+    * Screen navigation
+     |H|        -- jump to top of screen
+     |M|        -- jump to middle of screen
+     |L|        -- jump to bottom of screen
+      <C-E>     -- scroll one line down |CTRL-E|
+      <C-Y>     -- scroll one line up |CTRL-Y|
+
+    * Using Vim diffs
+     |]c|       -- next diff in file
+     |[c|       -- previous diff in file
+     |do|       -- diff obtain (get change from other window)
+     |dp|       -- diff put (put change into other window)
+
+==============================================================================
+                                                *vim-help-files*
+5. Helpful Vim Resources~
+
+These are resources in the Vim online help documentation.
+
+    * Searching
+        Search commands               |search-commands|
+        Pattern definiton             |search-pattern|
+        Specifying multiple patterns  |pattern-multi-items|
+        Atoms and character ranges    |pattern-atoms|
+        File and folder searching     |file-searching|
+
+    * Miscellaneouse
+        Keyword completion            |'complete'|
+        Using registers               |registers|
+        Using diff & patch            |vimdiff|
+
+    * Command Line
+        Special expansion characters  |cmdline-special|
+
+    * Online version of PDF manual: >
+        http://www.eandem.co.uk/mrw/vim/usr_doc/doc_ltrc.pdf
+
+==============================================================================
+                                                *jah-contrib*
+6. My Vim Contributions~
+
+These are tips and scripts that I have written for Vim.
+
+                                                *jah-tips*
+Tips~
+    Background :grep Searches >
+        http://www.vim.org/tips/tip.php?tip_id=986
+<   Toggle quickfix Window >
+        http://www.vim.org/tips/tip.php?tip_id=1008
+<
+                                                *jah-plugins*
+Plugins~
+    QFixToggle >
+        http://www.vim.org/scripts/script.php?script_id=1375
+<   TailMinusF >
+        http://www.vim.org/scripts/script.php?script_id=1374
+<   SessionMgr >
+        http://www.vim.org/scripts/script.php?script_id=1383
+<
+==============================================================================
+$Id: jah.txt 14 2007-11-21 06:32:43Z jheddings $
+vim:textwidth=78:tabstop=8:noexpandtab:filetype=help

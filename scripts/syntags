@@ -1,0 +1,73 @@
+#!/bin/bash
+
+TMPFILE="/tmp/syntags.tmp.$$"
+SRCFILES="/tmp/syntags.list.$$"
+CTAGS="ctags -f - -L $SRCFILES"
+PFIX=""
+
+################################################################################
+trap "cleanup" 0 1 2 3 9 15
+cleanup() {
+  if [ -f $TMPFILE ] ; then
+    rm -f $TMPFILE
+  fi
+
+  if [ -f $SRCFILES ] ; then
+    rm -f $SRCFILES
+  fi
+}
+
+process_kind() {
+  KIND=$1
+  GROUP=$2
+
+  $CTAGS --c-kinds=$KIND | cut -f1 | sort | uniq | grep -v '^_' \
+  | while read tag ; do echo -n " $tag" ; done > $TMPFILE
+
+  if [ -s $TMPFILE ] ; then
+    echo "syntax keyword $PFIX$GROUP $(cat $TMPFILE)"
+  fi
+}
+
+################################################################################
+# parse user options
+while getopts "p:h" opt ; do
+  case $opt in
+    p) PFIX=$OPTARG ;;
+    h) exit 0 ;;
+    *) exit 1 ;;
+  esac
+done
+
+# shift off options
+shift $(($OPTIND - 1))
+
+# store remaining args as files
+touch $SRCFILES
+while [ -n "$1" ] ; do
+ echo "$1" >> $SRCFILES
+ shift
+done
+
+################################################################################
+process_kind d Macro
+process_kind p Function
+process_kind stu Type
+process_kind e Constant
+process_kind x Variable
+
+# ctags kinds
+#   c  classes
+#   d  macro definitions
+#   e  enumerators (values inside an enumeration)
+#   f  function definitions
+#   g  enumeration names
+#   l  local variables [off]
+#   m  class, struct, and union members
+#   n  namespaces
+#   p  function prototypes [off]
+#   s  structure names
+#   t  typedefs
+#   u  union names
+#   v  variable definitions
+#   x  external variable declarations [off]
