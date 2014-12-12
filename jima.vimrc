@@ -1,4 +1,4 @@
-" $Id: jah.vimrc 34 2008-08-12 21:52:56Z jheddings $
+" Jim Anderson's vimrc file - based on one from Jason Heddings
 let $VIMFILES=expand("<sfile>:p:h")
 
 " basic stuff
