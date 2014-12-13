@@ -148,3 +148,20 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 " remove trailing white spaces on each save
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au  BufWritePre * exe "mark s | g/$/s/  *$// | 's"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set up pathogen
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+execute pathogen#infect()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" configure Syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_c_checkers = ["cppcheck", "gcc", "make"]
+let g:syntastic_cpp_checkers = ["cppcheck", "gcc", "make"]
+"let g:syntastic_cpp_checkers = ["cppcheck", ]
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_jump = 1
+" let f11 and f12 walk through signs on file
+noremap <F11> :lprev<enter>
+noremap <F12> :lnext<enter>
