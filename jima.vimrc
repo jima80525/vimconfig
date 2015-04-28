@@ -95,10 +95,11 @@ set shortmess+=r " use [RO] for [Read Only]
 " page down with <Space> (like in `Lynx', `Mutt', `Pine', `Netscape Navigator',
 " `SLRN', `Less', and `More'); page up with - (like in `Lynx', `Mutt', `Pine'),
 noremap <Space> <PageDown>
-noremap - <PageUp>
+" noremap - <PageUp>
 map <F1> <Plug>NERDCommenterTogglej
 " map f3 to repeat the last command on the start of the next line
 map <F3> 0j.
+map <F9> n.
 " highlight column 81
 set colorcolumn=81
 " have <Tab> (and <Shift>+<Tab> where it works) change the level of
@@ -156,9 +157,7 @@ execute pathogen#infect()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " configure Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_c_checkers = ["cppcheck", "gcc", "make"]
-let g:syntastic_cpp_checkers = ["cppcheck", "gcc", "make"]
-"let g:syntastic_cpp_checkers = ["cppcheck", ]
+let g:syntastic_cpp_checkers = [ ]
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_auto_jump = 1
 " let f11 and f12 walk through signs on file

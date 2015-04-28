@@ -56,7 +56,7 @@ vmap <S-Tab> <'<0v'>$
 
 " windows-like keys
 map <M-Space> :simalt ~<CR>
-nmap <C-A> ggVG$
+"nmap <C-A> ggVG$
 
 " plugin mappings
 nmap \s <Plug>HiLinkTrace
