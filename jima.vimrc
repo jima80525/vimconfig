@@ -164,3 +164,10 @@ let g:syntastic_auto_jump = 1
 " let f11 and f12 walk through signs on file
 noremap <F11> :lprev<enter>
 noremap <F12> :lnext<enter>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set up ack.vim to use silver searcher if available
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if executable('ag')
+   let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
