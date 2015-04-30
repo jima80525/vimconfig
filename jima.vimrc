@@ -2,23 +2,19 @@
 let $VIMFILES=expand("<sfile>:p:h")
 
 " basic stuff
-set viminfo='50,n$VIMFILES/viminfo
+"  stores 50 marks, 500 lines max for each register and stores it in viminfo
+set viminfo='50,<500,n$VIMFILES/viminfo
 
-" window sizing stuff
-if has("gui_running")
-  set lines=60
-  set columns=100
-endif
-" **  This line is 80 chars long  **********************************************
 
 " general settings
 set showcmd
+" do not create backups on write
 set nobackup
+" display line, col info on status
 set ruler
 set noerrorbells
 
 set scrolloff=2
-set history=100
 set updatetime=500
 set showtabline=1
 set backspace=indent,eol,start
@@ -31,7 +27,6 @@ filetype plugin indent on
 
 " search options
 set incsearch
-" set nohlsearch
 set ignorecase
 set smartcase
 
@@ -41,7 +36,6 @@ set expandtab
 set smartindent
 set showmatch
 set matchtime=5
-set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 " GUI features
 set mousehide
@@ -61,13 +55,6 @@ au! Syntax ftl source $VIM/syntax/ftl.vim
 
 " other configuration files
 helptags $VIMFILES/doc
-
-" configure QFixToggle
-let g:QFixToggle_Height=12
-
-" configure clibs
-let c_hi_identifiers = 'all'
-let c_hi_libs = ['*']
 
 set guifont=Monospace\ 13
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -93,13 +80,12 @@ set mouse=a " use mouse everywhere
 set shortmess=atI " shortens messages to avoid 'press a key' prompt
 set shortmess+=r " use [RO] for [Read Only]
 " page down with <Space> (like in `Lynx', `Mutt', `Pine', `Netscape Navigator',
-" `SLRN', `Less', and `More'); page up with - (like in `Lynx', `Mutt', `Pine'),
+" `SLRN', `Less', and `More');
 noremap <Space> <PageDown>
-" noremap - <PageUp>
 map <F1> <Plug>NERDCommenterTogglej
 " map f3 to repeat the last command on the start of the next line
 map <F3> 0j.
-map <F9> n.
+map <F9> .n
 " highlight column 81
 set colorcolumn=81
 " have <Tab> (and <Shift>+<Tab> where it works) change the level of
@@ -107,6 +93,30 @@ set colorcolumn=81
 inoremap <Tab> <C-T>
 inoremap <S-Tab> <C-D>
 map ; :
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" buffer navigation
+nmap <C-Tab> :bnext<CR>
+nmap <C-S-Tab> :bprev<CR>
+
+" use tab to indent in visual mode
+vmap <Tab> >'<0v'>$
+vmap <S-Tab> <'<0v'>$
+
+" plugin mappings
+nmap <silent> \\ :call BufferList()<CR>
+
+" miscellaneous mappings
+nmap <silent> \n :set hlsearch!<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set the current directory to the file being edited
+autocmd! BufEnter * execute ":lcd " . expand("%:p:h")
+
+" highlight trailing whitespace
+highlight WhiteSpaceEOL ctermbg=red guibg=red
+match WhiteSpaceEOL /\s\+$/
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Visual Cues
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -127,15 +137,6 @@ set shiftwidth=3 " unify
 set nowrap " do not wrap lines
 set smarttab " use tabs at the start of a line, spaces elsewhere
 set preserveindent
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Folding
-"    Enable folding, but by default make it act like folding is off, because folding is annoying in anything but a few rare cases
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set foldenable " Turn on folding
-set foldmethod=indent " Make folding indent sensitive
-set foldlevel=100 " Don't autofold anything (but I can still fold manually)
-set foldopen-=search " don't open folds when you search into them
-set foldopen-=undo " don't open folds when you undo stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Perl
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -170,3 +171,30 @@ noremap <F12> :lnext<enter>
 if executable('ag')
    let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" These are used by some of jason heddings' language files I inherited
+if !exists("g:jah_SmartTabCompletion")
+  let g:jah_SmartTabCompletion = 1
+endif
+
+if !exists("g:jah_CwdFollowsBuffer")
+  let g:jah_CwdFollowsBuffer = 1
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" (from Jason Heddings)
+" if the current word is a keyword, insert cmd key, otherwise a <Tab>
+function! KeywordTabWrapper(cmd)
+  " col() is 1-based
+  let l:col = col(".") - 1
+
+  if l:col
+    " if the current word is a keyword, complete it
+    if getline(".")[l:col - 1] =~ '\k'
+      execute "return \"" . a:cmd . "\""
+    endif
+  endif
+
+  return "\<Tab>"
+endfunction
