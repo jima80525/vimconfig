@@ -159,9 +159,10 @@ execute pathogen#infect()
 " configure Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_cpp_checkers = [ ]
-let g:syntastic_python_checkers = ['pyflakes', 'pylint']
+let g:syntastic_python_checkers = ['pyflakes', 'pylint', 'pep8']
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_auto_jump = 1
+let g:syntastic_python_pylint_args = "--load-plugins pylint_django"
 " let f11 and f12 walk through signs on file
 noremap <F11> :lprev<enter>
 noremap <F12> :lnext<enter>
