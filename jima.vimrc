@@ -83,6 +83,8 @@ set shortmess+=r " use [RO] for [Read Only]
 " `SLRN', `Less', and `More');
 noremap <Space> <PageDown>
 map <F1> <Plug>NERDCommenterTogglej
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
 " map f3 to repeat the last command on the start of the next line
 map <F3> 0j.
 map <F9> .n
@@ -159,7 +161,9 @@ execute pathogen#infect()
 " configure Syntastic
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_cpp_checkers = [ ]
-let g:syntastic_python_checkers = ['pyflakes', 'pylint', 'pep8']
+let g:syntastic_python_checkers = ['flake8', ]
+"let g:syntastic_python_checkers = ['pyflakes', 'pylint', 'pep8']
+"let g:syntastic_python_checkers = ['pyflakes', 'pep8']
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_auto_jump = 1
 let g:syntastic_python_pylint_args = "--load-plugins pylint_django"
