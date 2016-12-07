@@ -85,6 +85,7 @@ noremap <Space> <PageDown>
 map <F1> <Plug>NERDCommenterTogglej
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
+
 " map f3 to repeat the last command on the start of the next line
 map <F3> 0j.
 map <F9> .n
@@ -150,7 +151,7 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " remove trailing white spaces on each save
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au  BufWritePre * exe "mark s | g/$/s/  *$// | 's"
+" au  BufWritePre * exe "mark s | g/$/s/  *$// | 's"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set up pathogen
